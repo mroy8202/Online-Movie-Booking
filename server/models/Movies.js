@@ -22,7 +22,7 @@ const moviesSchema = new mongoose.Schema({
         enum: ["Action", "Horror", "Comedy", "Drama"]
     },
     duration: {
-        type: timestamps,
+        type: Number,
         required: true,
     },
     Language: {
