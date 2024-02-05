@@ -1,5 +1,6 @@
 const { uploadImageToCloudinary } = require("../utils/imageUploader");
 const Movies = require("../models/Movies");
+const cloudinary = require("cloudinary").v2;
 require("dotenv").config();
 
 function isFileTypeSupported(photoType, supportedTypes) {
@@ -43,6 +44,7 @@ exports.createMoviePost = async (req, res) => {
             about, 
             releaseDate, 
             poster: image.secure_url,
+            posterPublicId: image.public_id,
             genre, 
             duration, 
             Language, 
@@ -62,6 +64,53 @@ exports.createMoviePost = async (req, res) => {
             success: false,
             message: "could not create a movie post from backend",
             error: error.message,
+        });
+    }
+}
+
+// deleteMoviePost
+exports.deleteMoviePost = async (req, res) => {
+    try {
+        // fetch movie id
+        const movieId = req.params.id;
+        console.log("Movie id: ", movieId);
+        
+        // fetch movie
+        const movie = await Movies.findById(movieId);
+        if(!movie) {
+            return res.status(401).json({
+                success: false,
+                message: "Movie not found with given movieId",
+            });
+        }
+
+        // delete movie poster from cloudinary
+        try {
+            await cloudinary.uploader.destroy(movie.posterPublicId);
+        }
+        catch(error) {
+            return res.status(401).json({
+                success: false,
+                message: "Error in deleting poster from cloudinary",
+                error: error.message
+            });
+        }
+
+        // delete movie from database
+        const deletedMovie = await Movies.findByIdAndDelete(movieId);
+
+        return res.status(200).json({
+            success: true,
+            message: "Movie deleted successfully",
+            deletedMovie: deletedMovie
+        });
+    }
+    catch(error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: "Cannot delete movie post",
+            error: error.message
         });
     }
 }

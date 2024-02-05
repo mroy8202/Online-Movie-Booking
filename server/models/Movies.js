@@ -17,6 +17,10 @@ const moviesSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    posterPublicId: {
+        type: String,
+        required: true,
+    },
     genre: [{
         type: String,
     }],
