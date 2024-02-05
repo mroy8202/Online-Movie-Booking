@@ -73,7 +73,7 @@ exports.deleteMoviePost = async (req, res) => {
     try {
         // fetch movie id
         const movieId = req.params.id;
-        console.log("Movie id: ", movieId);
+        // console.log("Movie id: ", movieId);
         
         // fetch movie
         const movie = await Movies.findById(movieId);
@@ -114,3 +114,17 @@ exports.deleteMoviePost = async (req, res) => {
         });
     }
 }
+
+// getAllMovies
+// exports.getAllMovies = async (req, res) => {
+//     try {
+        
+//     }
+//     catch(error) {
+//         return res.status(200).json({
+//             success: false,
+//             message: "Cannot fetch movies from backend",
+//             error: error.message
+//         });
+//     }
+// }
