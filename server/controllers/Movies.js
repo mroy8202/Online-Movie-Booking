@@ -12,21 +12,17 @@ exports.createMoviePost = async (req, res) => {
         // fetch all data from req body
         const { title, about, releaseDate, genre, duration, Language, Actors } = req.body;
 
-        console.log("title: ", title);
-        console.log("photo: ", req.files.posterPicture);
+        // fetch poster
+        const photo = req.files.posterPicture;
 
         // check if data is valid
-        if(!title || !about || !releaseDate || !genre || !duration || !Language || !Actors) {
+        if(!title || !about || !releaseDate || !genre || !duration || !Language || !Actors || !photo) {
             return res.status(500).json({
                 success: false,
                 message: "Fill all the required data",
             });
         }
- 
-        // fetch movie poster
-        const photo = req.files.posterPicture;
-        console.log("photo: ", photo);
-
+        
         // validation on image
         const supportedTypes = ["jpg", "jpeg", "png"];
         const photoType = photo.name.split(".")[1].toLowerCase();

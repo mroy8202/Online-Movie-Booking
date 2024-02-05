@@ -17,19 +17,17 @@ const moviesSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    genre: {
+    genre: [{
         type: String,
-        enum: ["Action", "Horror", "Comedy", "Drama"]
-    },
+    }],
     duration: {
         type: Number,
         required: true,
     },
-    Language: {
+    Language: [{
         type: String,
-        enum: ["Hindi", "English"],
         required: true,
-    },
+    }],
     Actors: [{
         type: String,
         required: true,
